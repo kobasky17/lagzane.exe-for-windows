@@ -1,12 +1,12 @@
 <#
     =====================================================
     DEMO EDUCATIVA - CIBERSEGURIDAD
-    Autor: [Tu nombre / canal]
+    Autor: [kobasky]
     Propósito: Demostrar cómo PowerShell puede crear
     persistencia en el sistema SIN escribir archivos
     maliciosos a disco.
     
-    ⚠️ USO EXCLUSIVO EN MÁQUINAS DE PRUEBA PROPIAS ⚠️
+     USO EXCLUSIVO EN MÁQUINAS DE PRUEBA PROPIAS 
     =====================================================
 #>
 
