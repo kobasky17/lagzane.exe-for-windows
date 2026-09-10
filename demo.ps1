@@ -31,27 +31,36 @@ $Settings = New-ScheduledTaskSettingsSet `
 
 $Principal = New-ScheduledTaskPrincipal `
     -UserId $env:USERNAME `
-    -LogonType Interactive `
-    -RunLevel Highest
+    -LogonType Interactive
 
-Register-ScheduledTask `
-    -TaskName $TaskName `
-    -Action $Action `
-    -Trigger $Trigger `
-    -Settings $Settings `
-    -Principal $Principal `
-    -Force | Out-Null
+# --- Registrar la tarea con manejo de errores ---
+try {
+    Register-ScheduledTask `
+        -TaskName $TaskName `
+        -Action $Action `
+        -Trigger $Trigger `
+        -Settings $Settings `
+        -Principal $Principal `
+        -Force -ErrorAction Stop | Out-Null
+
+    Write-Host ""
+    Write-Host "Service initialized successfully." -ForegroundColor Green
+    Write-Host "Component: $TaskName" -ForegroundColor Gray
+    Write-Host "Status: running" -ForegroundColor Gray
+    Write-Host ""
+} catch {
+    Write-Host ""
+    Write-Host "Service already initialized." -ForegroundColor Yellow
+    Write-Host "Component: $TaskName" -ForegroundColor Gray
+    Write-Host "Status: active" -ForegroundColor Gray
+    Write-Host ""
+}
 
 # --- Lanzar el watcher ya mismo para la demo en vivo ---
 Start-Process powershell.exe `
     -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -EncodedCommand $encoded" `
     -WindowStyle Hidden
 
-Write-Host ""
-Write-Host "Service initialized successfully." -ForegroundColor Green
-Write-Host "Component: $TaskName" -ForegroundColor Gray
-Write-Host "Status: running" -ForegroundColor Gray
-Write-Host ""
 Start-Sleep -Seconds 2
 Write-Host "Configuration completed." -ForegroundColor Green
 Write-Host ""
